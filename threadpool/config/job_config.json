@@ -1,0 +1,22 @@
+{
+  "jobs":{
+    "job1": {
+      "handler": "job_orchestrator.handlers.generic_job_handler",
+      "tasks": [
+        { "name": "jobs.job1.task1" },
+        { "name": "jobs.job1.task2" },
+        { "name": "jobs.job2.task4" },
+        { "name": "jobs.job2.task5", "dependencies": ["jobs.job2.task4","jobs.job1.task2"] } ,
+        { "name": "jobs.job1.task3", "dependencies": ["jobs.job2.task4","jobs.job1.task2"]}
+      ]
+    },
+    "job2": {
+      "handler": "job_orchestrator.handlers.job1_handler",
+      "tasks": [
+        { "name": "jobs.job2.task4"},
+        { "name": "jobs.job2.task5", "dependencies": ["jobs.job2.task4"] },
+        { "name": "jobs.job2.task6" }
+      ]
+    }
+  }
+}
