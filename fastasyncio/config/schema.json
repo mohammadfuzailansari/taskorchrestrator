@@ -1,0 +1,28 @@
+{
+    "type": "object",
+    "properties": {
+        "jobs": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": { "type": "string" },
+                    "handler": { "type": "string" },
+                    "tasks": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": { "type": "string" },
+                                "dependencies": { "type": "array", "items": { "type": "string" } }
+                            },
+                            "required": ["name", "dependencies"]
+                        }
+                    }
+                },
+                "required": ["name", "handler", "tasks"]
+            }
+        }
+    },
+    "required": ["jobs"]
+}

@@ -1,0 +1,40 @@
+{
+    "jobs": [
+        {
+            "name": "Job1",
+            "handler": "ExampleJobHandler",
+            "tasks": [
+                {
+                    "name": "Task1",
+                    "dependencies": []
+                },
+                {
+                    "name": "Task2",
+                    "dependencies": ["Task1"]
+                },
+                {
+                    "name": "Task3",
+                    "dependencies": ["Task1", "Task2"]
+                }
+            ]
+        },
+        {
+            "name": "Job2",
+            "handler": "AnotherJobHandler",
+            "tasks": [
+                {
+                    "name": "Task1",
+                    "dependencies": []
+                },
+                {
+                    "name": "Task2",
+                    "dependencies": ["Task1"]
+                },
+                {
+                    "name": "Task3",
+                    "dependencies": ["Task2"]
+                }
+            ]
+        }
+    ]
+}
