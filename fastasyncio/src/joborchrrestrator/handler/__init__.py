@@ -1,2 +1,2 @@
-from .job_handler import JobHandler
-from .handlers import ExampleJobHandler, AnotherJobHandler
+from .generic_job_handler import GenericJobHandler
+from .job_handler import Job1Handler

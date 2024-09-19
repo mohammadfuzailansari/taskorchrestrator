@@ -2,19 +2,24 @@
     "jobs": [
         {
             "name": "Job1",
-            "handler": "ExampleJobHandler",
+            "handler": "handler.generic_job_handler.GenericJobHandler",
             "tasks": [
                 {
-                    "name": "Task1",
-                    "dependencies": []
+                    "name": "Task1"   ,
+                    "dependencies": []                 
                 },
                 {
                     "name": "Task2",
-                    "dependencies": ["Task1"]
+                    "dependencies": []
                 },
                 {
                     "name": "Task3",
-                    "dependencies": ["Task1", "Task2"]
+                    "dependencies": []
+                },
+                {
+                    "name": "Task4",
+                    "dependencies": ["Task3", "Task2"]
+                    
                 }
             ]
         },
