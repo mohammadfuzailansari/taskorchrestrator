@@ -38,7 +38,7 @@ class GenericJobHandler:
         logging.debug(f'Executing task: {task['name']}')
         
         task_class_name = task['name']
-        task_class = await self.load_task_class(task_class_name)
+        task_class = self.load_task_class(task_class_name)
         task_instance = task_class()       
 
         task_result = await task_instance.execute(input_data)
@@ -46,7 +46,7 @@ class GenericJobHandler:
         self.task_results[task['name']] = task_result
         return task_result
     
-    async def load_task_class(self, task_class_name):
+    def load_task_class(self, task_class_name):
         """Dynamically load a task class from the 'job/task' directory."""
         try:
             module_name = f'job.task.{task_class_name.lower()}'
@@ -62,14 +62,15 @@ class GenericJobHandler:
     
     async def run(self):
         """Run both parallel and sequential tasks and aggregate the response."""
-        start_time = time.time()
+        start_time = time.perf_counter()
         await self.run_parallel_tasks()
-        logging.debug(f' Total time for parallel execution : {time.time()-start_time}')
-        start_time = time.time()
+        logging.debug(f'Total time for parallel execution: {time.perf_counter() - start_time:.2f} seconds')
+        start_time = time.perf_counter()
         await self.run_sequential_tasks()
-        logging.debug(f' Total time for seqeuntial execution : {time.time()-start_time}')
-        logging.debug(f' All task result : {self.task_results}' )
-    
+        logging.debug(f'Total time for sequential execution: {time.perf_counter() - start_time:.2f} seconds')
+        logging.debug(f'All task results: {self.task_results}')
+
+        
     def aggregate_response(self):
         """Aggregate all task responses."""
         return {

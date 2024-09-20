@@ -4,3 +4,10 @@ jsonschema==4.10.3
 pydantic>=2.7.4,<3.0.0
 fastapi>=0.103.0
 
+pytest>=6.0.0
+pytest-asyncio>=0.14.0
+httpx>=0.18.0
+pytest-cov>=2.10.0
+pytest-mock>=3.5.0
+
+

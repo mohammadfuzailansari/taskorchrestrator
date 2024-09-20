@@ -22,7 +22,7 @@ class TaskHandler:
             handler_module, handler_class_name = self.handler_class_name.rsplit('.', 1)
           
             # Import the handler module dynamically
-            module = importlib.import_module(f'.{handler_module}', package='joborchrrestrator')
+            module = importlib.import_module(f'.{handler_module}', package='joborchrestrator')
             # Retrieve the handler class from the module
             handler_class = getattr(module, handler_class_name)
             return handler_class
@@ -33,14 +33,7 @@ class TaskHandler:
         """Execute tasks for the job."""
         parallel_tasks = self.get_parallel_tasks()
         sequential_tasks = self.get_sequential_tasks()
-
-        # # Determine which handler to use
-        # if self.handler_class_name == "Job1Handler":
-        #     job_handler = Job1Handler(parallel_tasks, sequential_tasks)
-        # else:
-        #     job_handler = GenericJobHandler(parallel_tasks, sequential_tasks)
-
-        # Load the handler class dynamically
+      
         handler_class = self.load_handler_class()
         
         # Determine which handler to use
