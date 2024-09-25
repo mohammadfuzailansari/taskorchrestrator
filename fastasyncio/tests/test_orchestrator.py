@@ -14,7 +14,7 @@ base_src = os.path.join(project_root, 'src')
 sys.path.insert(2, base_src)  # Insert at the beginning to prioritize
 
 
-from src.joborchrestrator.orchestrator import JobOrchestrator
+from fastasyncio.src.joborchrestrator.job_processor import JobProcessor
 from src.joborchrestrator.utils import load_json, detect_cycles
 
 
@@ -23,7 +23,7 @@ def orchestrator():
     # "config/job.json", "config/schema.json"
     job_file = 'config/job.json'
     schema_file = 'config/schema.json'
-    return JobOrchestrator(job_file, schema_file)
+    return JobProcessor(job_file, schema_file)
 
 def test_validate_job_file(orchestrator):
     with patch('joborchrestrator.utils.load_json', side_effect=[{"jobs": []}, {}]), \

@@ -1,7 +1,7 @@
+import logging
 import uvicorn
 from fastapi import FastAPI, HTTPException, Depends
-from joborchrestrator.orchestrator import JobOrchestrator
-import logging
+from joborchrestrator.job_processor import JobProcessor
 
 # Initialize the FastAPI application
 app = FastAPI()
@@ -9,25 +9,25 @@ app = FastAPI()
 # Set up logging with a specific format and debug level to capture detailed information
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def get_orchestrator():
+def get_processor():
     """
-    Dependency injection function that creates and returns an instance of JobOrchestrator.
+    Dependency injection function that creates and returns an instance of JobProcessor.
     This function is used by FastAPI's dependency injection system to provide an orchestrator instance.
     
     Returns:
-        JobOrchestrator: An instance of JobOrchestrator configured with job and schema JSON files.
+        JobProcessor: An instance of JobProcessor configured with job and schema JSON files.
     """
-    return JobOrchestrator("config/job.json", "config/schema.json")
+    return JobProcessor("config/job.json", "config/schema.json")
 
 @app.post("/execute_job/{job_name}")
-async def execute_job(job_name: str, orchestrator: JobOrchestrator = Depends(get_orchestrator)):
+async def execute_job(job_name: str, processor: JobProcessor = Depends(get_processor)):
     """
-    FastAPI endpoint to execute a job by its name using the JobOrchestrator.
-    This endpoint handles POST requests and uses dependency injection to get an orchestrator instance.
+    FastAPI endpoint to execute a job by its name using the JobProcessor.
+    This endpoint handles POST requests and uses dependency injection to get an processor instance.
     
     Args:
         job_name (str): The name of the job to execute.
-        orchestrator (JobOrchestrator): An instance of JobOrchestrator to handle the job execution.
+        processor (JobProcessor): An instance of JobProcessor to handle the job execution.
         
     Returns:
         dict: A dictionary with the status and message of the job execution.
@@ -36,8 +36,8 @@ async def execute_job(job_name: str, orchestrator: JobOrchestrator = Depends(get
         HTTPException: An exception with appropriate status code and detail message when an error occurs.
     """
     try:
-        # Attempt to execute the job using the orchestrator
-        await orchestrator.execute_job(job_name)
+        # Attempt to execute the job using the processor
+        await processor.execute_job(job_name)
         # Return a success message if the job is executed successfully
         return {"status": "success", "message": f"Job '{job_name}' executed successfully."}
     except ValueError as e:

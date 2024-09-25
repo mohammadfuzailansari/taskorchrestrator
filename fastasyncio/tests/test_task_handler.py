@@ -15,7 +15,7 @@ sys.path.insert(2, base_src)  # Insert at the beginning to prioritize
 
 
 
-from src.joborchrestrator.task_handler import TaskHandler 
+from fastasyncio.src.joborchrestrator.task_processor import TaskProcessor 
 
 # Sample job data to be used in tests
 job_data = {
@@ -28,7 +28,7 @@ job_data = {
 
 @pytest.fixture
 def task_handler():
-    return TaskHandler(job_data)
+    return TaskProcessor(job_data)
 
 def test_get_parallel_tasks(task_handler):
     parallel_tasks = task_handler.get_parallel_tasks()

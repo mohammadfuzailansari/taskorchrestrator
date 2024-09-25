@@ -17,7 +17,7 @@ sys.path.insert(2, base_src)  # Insert at the beginning to prioritize
 
 # Assuming the FastAPI app and JobOrchestrator are imported from their respective modules
 from src.main import app
-from src.joborchrestrator.orchestrator import JobOrchestrator
+from fastasyncio.src.joborchrestrator.job_processor import JobProcessor
 
 
 

@@ -14,7 +14,7 @@
                 },
                 {
                     "name": "Task3",
-                    "dependencies": []
+                    "dependencies": ["Task2"]
                 },
                 {
                     "name": "Task4",
@@ -33,11 +33,11 @@
                 },
                 {
                     "name": "Task2",
-                    "dependencies": ["Task1"]
+                    "dependencies": []
                 },
                 {
                     "name": "Task3",
-                    "dependencies": ["Task2"]
+                    "dependencies": []
                 }
             ]
         }

@@ -1,7 +1,7 @@
 import importlib  # Used for dynamically loading modules
 from .handler import GenericJobHandler, Job1Handler  # Import specific job handlers
 
-class TaskHandler:
+class TaskProcessor:
     """
     Handles the organization and execution of tasks based on their dependencies.
     

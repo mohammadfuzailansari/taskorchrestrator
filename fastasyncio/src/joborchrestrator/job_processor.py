@@ -1,11 +1,10 @@
-from fastapi import Depends  # Importing FastAPI's dependency injection tool
 from jsonschema import validate, ValidationError  # Tools for JSON schema validation
-from .task_handler import TaskHandler  # Importing the TaskHandler class for task execution
+from .task_processor import TaskProcessor  # Importing the TaskProcessor class for task execution
 from .utils import load_json, detect_cycles  # Utility functions for loading JSON and detecting cycles
 
-class JobOrchestrator:
+class JobProcessor:
     """
-    Orchestrates the execution of jobs based on configurations specified in JSON files.
+    Processes the execution of jobs based on configurations specified in JSON files.
     
     Attributes:
         job_file (str): The file path to the job configuration JSON.
@@ -16,7 +15,7 @@ class JobOrchestrator:
     
     def __init__(self, job_file: str, schema_file: str):
         """
-        Initializes the JobOrchestrator with paths to the job and schema JSON files.
+        Initializes the JobProcessor with paths to the job and schema JSON files.
         
         Args:
             job_file (str): The file path to the job configuration JSON.
@@ -88,5 +87,5 @@ class JobOrchestrator:
         job = self.get_job_by_name(job_name)  # Retrieving the job by name
         self.validate_job(job)  # Validating the job
 
-        task_handler = TaskHandler(job)  # Creating an instance of TaskHandler with the job
-        await task_handler.execute_tasks()  # Executing the tasks asynchronously
+        task_processor = TaskProcessor(job)  # Creating an instance of TaskHandler with the job
+        await task_processor.execute_tasks()  # Executing the tasks asynchronously

@@ -20,10 +20,10 @@ FastAsyncio also integrates with **FastAPI** to expose endpoints for initiating 
   ```bash
   python main.py
 
-### 2. `orchestrator.py`
+### 2. `job_processor.py`
 - This file is the validator job configuration like valid json, job defiition exist and cyclic dependency check 
 
-### 3. `task_handler.py`
+### 3. `task_processor.py`
 - This file dynamically lods Handler class for a job and identified paralle and sequential tasks
 
 ### 4. `generic_job_handler.py`
@@ -81,8 +81,8 @@ fastasyncio/
 │   │       └── task4.py                # Continues to expand the task variety within the project.  
 │   ├── joborchrestrator/               # Responsible for orchestrating the execution of jobs.
 │   │   ├── __init__.py                 # Marks the `joborchestrator` directory as a Python package.
-|   │   ├── orchestrator.py   # Contains the `JobOrchestrator` class that manages the scheduling and execution of different jobs.
-|   │   ├── task_handler.py   #  Manages the execution of tasks, utilizing the classes defined in the `task` directory.
+|   │   ├── job_processor.py   # Contains the `JobOrchestrator` class that manages the scheduling and execution of different jobs.
+|   │   ├── task_processor.py   #  Manages the execution of tasks, utilizing the classes defined in the `task` directory.
 |   │   ├── utils.py          # Provides utility functions such as configuration loading and cycle detection in task dependencies.
 │   |   └── handler/                    # Contains handlers for different types of jobs.
 │   │       ├── __init__.py             # Marks the `handler` directory as a Python package.
