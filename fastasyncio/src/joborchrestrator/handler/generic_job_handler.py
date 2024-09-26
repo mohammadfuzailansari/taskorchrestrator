@@ -30,14 +30,13 @@ class GenericJobHandler:
         logging.debug('Executing task in sequence: %s', self.sequential_tasks)
         for task in self.sequential_tasks:
             dependencies = task.get('dependencies', [])
-            concatenated_input = ""
+            task_input_dict = {}
 
             for dependency in dependencies:
                 if dependency in self.task_results:
-                    task_return_data = "Message: %s, Data: %s" % (*self.task_results[dependency],)
-                    concatenated_input += task_return_data + " "
+                    task_input_dict[dependency] = self.task_results[dependency]
 
-            task_result = await self.execute_task(task, concatenated_input.strip())
+            task_result = await self.execute_task(task, task_input_dict)
             self.task_results[task['name']] = task_result
 
     async def execute_task(self, task, input_data=None):
