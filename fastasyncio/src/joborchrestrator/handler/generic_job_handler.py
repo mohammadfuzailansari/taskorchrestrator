@@ -74,7 +74,7 @@ class GenericJobHandler:
         await self.run_parallel_tasks()
         logging.debug('Total time for parallel execution: %.2f seconds', time.perf_counter() - start_time)
         start_time = time.perf_counter()
-        await self.run_sequential_tasks()
+        await self.run_sequential_tasks() #treee
         logging.debug('Total time for sequential execution: %.2f seconds', time.perf_counter() - start_time)
         logging.debug('All task results: %s', self.task_results)
 

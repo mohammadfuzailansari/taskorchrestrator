@@ -52,3 +52,8 @@ async def execute_job(job_name: str, processor: JobProcessor = Depends(get_proce
 if __name__ == "__main__":
     # Run the FastAPI app with Uvicorn, listening on all interfaces on port 8000, with auto-reload enabled
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
+
+# parallel jobs 
+# optimal concurrency (tree Mapping)
+# data sharing

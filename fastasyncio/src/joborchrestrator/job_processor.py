@@ -1,5 +1,5 @@
+import importlib
 from jsonschema import validate, ValidationError  # Tools for JSON schema validation
-from .task_processor import TaskProcessor  # Importing the TaskProcessor class for task execution
 from .utils import load_json, detect_cycles  # Utility functions for loading JSON and detecting cycles
 
 class JobProcessor:
@@ -66,12 +66,40 @@ class JobProcessor:
         Raises:
             ValueError: If the job does not have a handler or if cyclic dependencies are detected.
         """
+
+        handler_class_name = job.get("handler", None)  # Get the handler class name from job data
+
+        handler_class = self.load_handler_class(handler_class_name)  # Load the appropriate handler class
+        
         if 'handler' not in job:
             raise ValueError(f"Job '{job['name']}' does not have a handler class.")  # Checking for handler class
         
         task_graph = {task['name']: task.get('dependencies', []) for task in job['tasks']}  # Creating a graph of tasks
         if detect_cycles(task_graph):
             raise ValueError(f"Job '{job['name']}' has cyclic dependencies.")  # Checking for cyclic dependencies
+        
+        return handler_class
+        
+    def load_handler_class(self, handler_class_name):
+        """
+        Dynamically loads the handler class based on the handler_class_name attribute.
+        
+        Returns:
+            class: The handler class from the specified module.
+        
+        Raises:
+            ValueError: If the handler class cannot be loaded due to ImportError or AttributeError.
+        """
+        try:
+            # Split the handler class name to get module and class name
+            handler_module, handler_class_name = handler_class_name.rsplit('.', 1)
+            # Dynamically import the module
+            module = importlib.import_module(f'.{handler_module}', package='joborchrestrator')
+            # Get the class from the module
+            handler_class = getattr(module, handler_class_name)
+            return handler_class
+        except (ImportError, AttributeError) as e:
+            raise ValueError(f"Failed to load handler class '{self.handler_class_name}': {e}")
     
     async def execute_job(self, job_name: str):
         """
@@ -85,7 +113,8 @@ class JobProcessor:
         """
         self.validate_job_file()  # Validating the job file
         job = self.get_job_by_name(job_name)  # Retrieving the job by name
-        self.validate_job(job)  # Validating the job
-
-        task_processor = TaskProcessor(job)  # Creating an instance of TaskHandler with the job
-        await task_processor.execute_tasks()  # Executing the tasks asynchronously
+        handler_class = self.validate_job(job)  # Validating the job
+        
+        job_handler = handler_class(job)  # Instantiate the handler
+        
+        return await job_handler.run()  # Execute the tasks using the handler and return the result

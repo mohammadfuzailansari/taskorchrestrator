@@ -2,7 +2,7 @@
     "jobs": [
         {
             "name": "Job1",
-            "handler": "handler.generic_job_handler.GenericJobHandler",
+            "handler": "handler.generic_job_handler_dag.GenericJobHandler",
             "tasks": [
                 {
                     "name": "Task1"   ,
@@ -14,11 +14,11 @@
                 },
                 {
                     "name": "Task3",
-                    "dependencies": ["Task2"]
+                    "dependencies": ["Task2", "Task1"]
                 },
                 {
                     "name": "Task4",
-                    "dependencies": ["Task3", "Task2"]
+                    "dependencies": ["Task2"]
                     
                 }
             ]
